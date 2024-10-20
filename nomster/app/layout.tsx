@@ -7,6 +7,7 @@ import "./globals.css";
 import { use, useState, useEffect } from 'react';
 import { createClient } from "@supabase/supabase-js"
 import { Resend } from 'resend';
+import { sendThankYouEmail } from './actions'; // Adjust the path as necessary
 
 
 
@@ -70,12 +71,9 @@ export default function RootLayout({
       console.log('Data inserted successfully: ', data);
       setInfo("Thanks! We'll reach out to you soon about Nomster!");
       
-      await resend.emails.send({
-        from: 'Adam <adam@nomster.me>',
-        to: [inputValueEmail],
-        subject: 'hello world',
-        html: '<p>it works!</p>',
-      });
+      // Call the function to send the thank-you email
+      await sendThankYouEmail(inputValueEmail);
+
       await new Promise(r => setTimeout(r, 4000));
 
       setInputValueName('');
