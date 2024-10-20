@@ -4,7 +4,7 @@ import Image from "next/image"
 import * as motion from "framer-motion/client"
 import { Button } from "@/components/ui/button"
 import "./globals.css";
-import { useState } from 'react';
+import { use, useState, useEffect } from 'react';
 import { createClient } from "@supabase/supabase-js"
 
 
@@ -21,6 +21,9 @@ export default function RootLayout({
 }) {
   const [inputValueEmail, setInputValueEmail] = useState("");
   const [inputValueName, setInputValueName] = useState("");
+  const [inputValuePhone, setInputValuePhone] = useState("");
+  const [info, setInfo] = useState("Coming soon");
+
 
   const handleInputChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValueEmail(event.target.value)
@@ -30,17 +33,40 @@ export default function RootLayout({
     setInputValueName(event.target.value)
   };
 
+  const handleInputChangePhone = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValuePhone(event.target.value)
+  };
+
+  useEffect(() => {
+    setInfo("Coming soon");
+  }, [inputValueEmail, inputValueName, inputValuePhone]);
+
   const handleSubmit =  async () => {
+    if (inputValueEmail === "" || inputValueName === "" || inputValuePhone == "") {
+      setInfo("Please fill out all forms!");
+      return
+    } 
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{10,15}$/;
+    if (!emailRegex.test(inputValueEmail) || !phoneRegex.test(inputValuePhone)) {
+      setInfo("Please make sure all forms are correct!");
+      return
+    }
+
     const { data, error } = await supabase
     .from('sign_up')
-    .insert([{Name : inputValueName, Email: inputValueEmail}]);
+    .insert([{Name : inputValueName, Email: inputValueEmail, Phone: inputValuePhone}]);
 
     if(error){
       console.log(error)
-    }else{
+    }else {
       console.log('Data inserted successfully: ', data);
+      setInfo("Thanks! We'll reach out to you soon about Nomster!");
+      await new Promise(r => setTimeout(r, 4000));
       setInputValueName('');
       setInputValueEmail('');
+      setInputValuePhone('');
     }
   }
   return (
@@ -71,13 +97,15 @@ export default function RootLayout({
             <div className="h-4">
             </div>
               <div className="flex flex-col gap-3">
-                <div className="flex flex-row space-x-4 mb-8">
+                <div className="flex flex-row space-x-4 mb-4">
                   <Input placeholder="Full Name" className="placeholder:italic placeholder:text-slate-400" value={inputValueName} onChange={handleInputChangeName}/>
-                <Input placeholder="Email" className="placeholder:italic placeholder:text-slate-400" value={inputValueEmail} onChange={handleInputChangeEmail}/>
+                <Input type="email" placeholder="Email" className="placeholder:italic placeholder:text-slate-400" value={inputValueEmail} onChange={handleInputChangeEmail}/>
                 </div>
+                <Input type="tel" placeholder="Phone Number" className="mb-4 placeholder:italic placeholder:text-slate-400" value={inputValuePhone} onChange={handleInputChangePhone}/>
+
                 <Button onClick={handleSubmit}>Sign Up</Button>
                 <motion.p 
-                className="mt-auto text-slate-500 font-bubbly font-thin italic text-xl drop-shadow">Coming soon</motion.p>
+                className="mt-auto text-slate-500 font-bubbly font-thin italic text-xl drop-shadow">{info}</motion.p>
                 <svg className="drop-shadow-xl absolute top-[0.2vh] left-1/2 -z-10 transform -translate-x-1/2 size-[16rem]" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1280 1024">
                   <g>
                     <g id="Layer_1">
