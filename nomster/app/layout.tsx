@@ -65,7 +65,7 @@ export default function RootLayout({
               <motion.h1 
                 animate={{y:[20, -20, 20]}} 
                 transition={{ repeat: Infinity, duration: 7, repeatType:"loop", ease:"easeInOut"}}
-                className="font-bubbly text-9xl font-bold drop-shadow-lg text-white mb-10 y-100">NOMSTER</motion.h1>
+                className="font-bubbly text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold drop-shadow-lg text-white mb-6">NOMSTER</motion.h1>
               </div>
             <div className="h-4">
             </div>
@@ -77,7 +77,7 @@ export default function RootLayout({
                 <Button onClick={handleSubmit}>Sign Up</Button>
                 <motion.p 
                 className="mt-auto text-slate-500 font-bubbly font-thin italic text-xl drop-shadow">Coming soon</motion.p>
-                <svg className="drop-shadow-xl absolute top-[11rem] left-1/2 -z-10 transform -translate-x-1/2 -translate-y-1/2 size-[16rem]" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1280 1024">
+                <svg className="drop-shadow-xl absolute top-[0.2vh] left-1/2 -z-10 transform -translate-x-1/2 size-[16rem]" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1280 1024">
                   <g>
                     <g id="Layer_1">
                       <g>
