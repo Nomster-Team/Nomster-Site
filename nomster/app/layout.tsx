@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button"
 import "./globals.css";
 import { use, useState, useEffect } from 'react';
 import { createClient } from "@supabase/supabase-js"
+import { Resend } from 'resend';
+
 
 
 
@@ -23,6 +25,7 @@ export default function RootLayout({
   const [inputValueName, setInputValueName] = useState("");
   const [inputValuePhone, setInputValuePhone] = useState("");
   const [info, setInfo] = useState("Coming soon");
+  const resend = new Resend('re_123456789');
 
 
   const handleInputChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,10 +43,11 @@ export default function RootLayout({
   useEffect(() => {
     setInfo("Coming soon");
   }, [inputValueEmail, inputValueName, inputValuePhone]);
+  
 
   const handleSubmit =  async () => {
-    if (inputValueEmail === "" || inputValueName === "" || inputValuePhone == "") {
-      setInfo("Please fill out all forms!");
+    if (inputValueEmail === "" || inputValueName === "") {
+      setInfo("Please fill out required forms!");
       return
     } 
 
@@ -61,9 +65,19 @@ export default function RootLayout({
     if(error){
       console.log(error)
     }else {
+
+
       console.log('Data inserted successfully: ', data);
       setInfo("Thanks! We'll reach out to you soon about Nomster!");
+      
+      await resend.emails.send({
+        from: 'Adam <adam@nomster.me>',
+        to: [inputValueEmail],
+        subject: 'hello world',
+        html: '<p>it works!</p>',
+      });
       await new Promise(r => setTimeout(r, 4000));
+
       setInputValueName('');
       setInputValueEmail('');
       setInputValuePhone('');
