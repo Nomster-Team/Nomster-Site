@@ -26,8 +26,6 @@ export default function RootLayout({
   const [inputValueName, setInputValueName] = useState("");
   const [inputValuePhone, setInputValuePhone] = useState("");
   const [info, setInfo] = useState("Coming soon");
-  const resend = new Resend('re_123456789');
-
 
   const handleInputChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValueEmail(event.target.value)

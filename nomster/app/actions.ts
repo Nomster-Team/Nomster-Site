@@ -1,7 +1,7 @@
 import { Resend } from 'resend';
 
-// Initialize Resend client
-const resend = new Resend(process.env.RESEND_API_KEY); // Replace with your actual API key
+// Initialize Resend client with the API key from environment variables
+const resend = new Resend(process.env.RESEND_API_KEY!); // Use non-null assertion if you're sure the key is set
 
 // Function to send a thank-you email
 export const sendThankYouEmail = async (email: string) => {
