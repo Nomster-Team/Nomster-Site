@@ -5,15 +5,6 @@ import * as motion from "framer-motion/client"
 import { Button } from "@/components/ui/button"
 import "./globals.css";
 import { use, useState, useEffect } from 'react';
-import { createClient } from "@supabase/supabase-js"
-
-
-
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseKey);
-
 
 export default function RootLayout({
 }: {
@@ -42,33 +33,77 @@ export default function RootLayout({
   }, [inputValueEmail, inputValueName, inputValuePhone]);
 
   const handleSubmit =  async () => {
-    if (inputValueEmail === "" || inputValueName === "" || inputValuePhone == "") {
+    if (inputValueEmail === "" || inputValueName === "") {
       setInfo("Please fill out all forms!");
       return
     } 
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^[0-9]{10,15}$/;
-    if (!emailRegex.test(inputValueEmail) || !phoneRegex.test(inputValuePhone)) {
+    if (!emailRegex.test(inputValueEmail)) {
       setInfo("Please make sure all forms are correct!");
       return
     }
 
-    const { data, error } = await supabase
-    .from('sign_up')
-    .insert([{Name : inputValueName, Email: inputValueEmail, Phone: inputValuePhone}]);
+    if (inputValuePhone !== "") {
+      if (!phoneRegex.test(inputValuePhone)) {
+        setInfo("Please make sure all forms are correct!");
+        return;
+      }
+    }
 
-    if(error){
-      console.log(error)
-    }else {
-      console.log('Data inserted successfully: ', data);
-      setInfo("Thanks! We'll reach out to you soon about Nomster!");
-      await new Promise(r => setTimeout(r, 4000));
-      setInputValueName('');
-      setInputValueEmail('');
-      setInputValuePhone('');
+    const sanitizedInput = inputValuePhone === '' ? null : inputValuePhone;
+
+    const payload = {
+      Name: inputValueName,
+      Email: inputValueEmail,
+      Phone: sanitizedInput,
+    };
+
+    try {
+      const response = await fetch('/api/supabase-insert', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok) {
+        console.log('Data inserted successfully:', result.data);
+        setInfo("Thanks! We'll reach out to you soon about Nomster!");
+        try {
+          const response = await fetch('/api/send-email', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+      
+          const result = await response.json();
+          
+          if (response.ok) {
+            console.log('Email sent successfully:', result);
+          } else {
+            console.error('Error sending email:', result.error);
+          }
+        } catch (error) {
+          console.error('Fetch error:', error);
+        }
+        await new Promise(r => setTimeout(r, 4000));
+        setInputValueName('');
+        setInputValueEmail('');
+        setInputValuePhone('');
+      } else {
+        console.error('Error inserting data:', result.error);
+      }
+    } catch (error) {
+      console.error('Fetch error:', error);
     }
   }
+  
   return (
     <html>
       <body>
@@ -101,7 +136,7 @@ export default function RootLayout({
                   <Input placeholder="Full Name" className="placeholder:italic placeholder:text-slate-400" value={inputValueName} onChange={handleInputChangeName}/>
                 <Input type="email" placeholder="Email" className="placeholder:italic placeholder:text-slate-400" value={inputValueEmail} onChange={handleInputChangeEmail}/>
                 </div>
-                <Input type="tel" placeholder="Phone Number" className="mb-4 placeholder:italic placeholder:text-slate-400" value={inputValuePhone} onChange={handleInputChangePhone}/>
+                <Input type="tel" placeholder="Phone Number (Optional)" className="mb-4 placeholder:italic placeholder:text-slate-400" value={inputValuePhone} onChange={handleInputChangePhone}/>
 
                 <Button onClick={handleSubmit}>Sign Up</Button>
                 <motion.p 
