@@ -66,4 +66,28 @@
   body {
     @apply bg-background text-foreground;
   }
+
+
 }
+
+@font-face {
+  font-family: 'BubbleBoddyNeue';
+  src: url('/fonts/BubbleboddyNeue-Thin Trial.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'BubbleBoddyNeue';
+  src: url('/fonts/bubbleboddyneue-regular trial.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'BubbleBoddyNeue';
+  src: url('/fonts/BubbleboddyNeue-Bold Trial.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
