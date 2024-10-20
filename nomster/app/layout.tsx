@@ -33,6 +33,7 @@ export default function RootLayout({
   
 
   const handleSubmit =  async () => {
+    console.log("importing")
     if (inputValueEmail === "" || inputValueName === "") {
       setInfo("Please fill out all forms!");
       return
@@ -80,22 +81,30 @@ export default function RootLayout({
             headers: {
               'Content-Type': 'application/json',
             },
+            body: JSON.stringify({
+              email: inputValueEmail,
+            }),
           });
       
-          const result = await response.json();
-          
-          if (response.ok) {
-            console.log('Email sent successfully:', result);
-          } else {
-            console.error('Error sending email:', result.error);
+          // Log the response status and text for debugging
+          if (!response.ok) {
+            const errorText = await response.text(); // Get the response text
+            console.error('Error sending email:', response.status, errorText);
+            setInfo('Error sending email. Please try again later.');
+            return;
           }
+      
+          const result = await response.json();
+          console.log('Email sent successfully:', result);
         } catch (error) {
           console.error('Fetch error:', error);
+          setInfo('An unexpected error occurred. Please try again later.');
         }
         await new Promise(r => setTimeout(r, 4000));
         setInputValueName('');
         setInputValueEmail('');
         setInputValuePhone('');
+
       } else {
         console.error('Error inserting data:', result.error);
       }
