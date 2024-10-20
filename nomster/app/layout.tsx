@@ -1,29 +1,45 @@
-import { hasEnvVars } from "@/utils/supabase/check-env-vars";
-import { GeistSans } from "geist/font/sans";
+"use client"
+import { Input } from "@/components/ui/input"
 import Image from "next/image"
 import * as motion from "framer-motion/client"
-import { ThemeProvider } from "next-themes";
 import { Button } from "@/components/ui/button"
-import Link from "next/link";
 import "./globals.css";
+import { useState } from 'react';
+import { createClient } from "@supabase/supabase-js"
 
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
-
-export const metadata = {
-  metadataBase: new URL(defaultUrl),
-  title: "Nomster",
-  description: "Nomster Landing",
-};
-
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 
 export default function RootLayout({
-  children,
 }: {
   children: React.ReactNode;
 }) {
+  const [inputValueEmail, setInputValueEmail] = useState("");
+  const [inputValueName, setInputValueName] = useState("");
+
+  const handleInputChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValueEmail(event.target.value)
+  };
+
+  const handleInputChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValueName(event.target.value)
+  };
+
+  const handleSubmit =  async () => {
+    const { data, error } = await supabase
+    .from('sign_up')
+    .insert([{Name : inputValueName, Email: inputValueEmail}]);
+
+    if(error){
+      console.log(error)
+    }else{
+      console.log('Data inserted successfully: ', data);
+      setInputValueName('');
+      setInputValueEmail('');
+    }
+  }
   return (
     <html>
       <body>
@@ -31,8 +47,9 @@ export default function RootLayout({
             <div className="m-auto text-center">
               <div className="mb-8">
                 <motion.h1 animate={{y:30}}className="text-9xl font-bold text-black mb-10 y-100">NOMSTER</motion.h1>
-                
-                <Button >Sign Up</Button>
+                <Input value={inputValueName} onChange={handleInputChangeName}/>
+                <Input value={inputValueEmail} onChange={handleInputChangeEmail}/>
+                <Button onClick={handleSubmit}>Sign Up</Button>
                 <Image style={{position : 'relative'}} 
                   src="/download.png"
                     alt="Description of the image"
@@ -41,12 +58,12 @@ export default function RootLayout({
                 />
               </div>
 
-              <div class="flex flex-col gap-3">
-              <button class="cursor-pointer">
+              <div className="flex flex-col gap-3">
+              <button className="cursor-pointer">
                 <div
-                  class="flex max-w-48 h-12 px-3 gap-2 rounded-xl items-center justify-center bg-black text-white dark:text-black dark:bg-white sm:h-14"
+                  className="flex max-w-48 h-12 px-3 gap-2 rounded-xl items-center justify-center bg-black text-white dark:text-black dark:bg-white sm:h-14"
                 >
-                  <svg viewBox="30 336.7 120.9 129.2" class="w-5 sm:w-7">
+                  <svg viewBox="30 336.7 120.9 129.2" className="w-5 sm:w-7">
                     <path
                       d="M119.2,421.2c15.3-8.4,27-14.8,28-15.3c3.2-1.7,6.5-6.2,0-9.7  c-2.1-1.1-13.4-7.3-28-15.3l-20.1,20.2L119.2,421.2z"
                       fill="#FFD400"
@@ -65,27 +82,27 @@ export default function RootLayout({
                     ></path>
                   </svg>
                   <div>
-                    <div class="text-[.5rem] sm:text-xs text-left">GET IT ON</div>
-                    <div class="text-sm font-semibold font-sans -mt-1 sm:text-xl">
+                    <div className="text-[.5rem] sm:text-xs text-left">GET IT ON</div>
+                    <div className="text-sm font-semibold font-sans -mt-1 sm:text-xl">
                       Google Play
                     </div>
                   </div>
                 </div>
               </button>
 
-                <button class="cursor-pointer">
+                <button className="cursor-pointer">
                   <div
-                    class="flex max-w-48 h-12 px-3 gap-2 rounded-xl items-center justify-center bg-black text-white dark:text-black dark:bg-white sm:gap-3 sm:h-14"
+                    className="flex max-w-48 h-12 px-3 gap-2 rounded-xl items-center justify-center bg-black text-white dark:text-black dark:bg-white sm:gap-3 sm:h-14"
                   >
-                    <svg viewBox="0 0 384 512" class="w-5 sm:w-7">
+                    <svg viewBox="0 0 384 512" className="w-5 sm:w-7">
                       <path
                         d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
                         fill="currentColor"
                       ></path>
                     </svg>
                     <div>
-                      <div class="text-[.5rem] sm:text-xs text-left">Download on the</div>
-                      <div class="text-lg font-semibold font-sans -mt-1 sm:text-2xl">
+                      <div className="text-[.5rem] sm:text-xs text-left">Download on the</div>
+                      <div className="text-lg font-semibold font-sans -mt-1 sm:text-2xl">
                         App Store
                       </div>
                     </div>
