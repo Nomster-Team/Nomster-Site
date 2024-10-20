@@ -83,6 +83,7 @@ export default function RootLayout({
             },
             body: JSON.stringify({
               email: inputValueEmail,
+              name: inputValueName,
             }),
           });
       
