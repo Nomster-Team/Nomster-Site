@@ -11,7 +11,7 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({ firstName }) => {
         width="100%"
         cellPadding="0"
         cellSpacing="0"
-        border="0"
+        border={0}
         style={{
           background: 'linear-gradient(to right, #FED8DF, #BFDBFE)',
           padding: '40px 0',
@@ -34,7 +34,7 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({ firstName }) => {
                 width="100%"
                 cellPadding="0"
                 cellSpacing="0"
-                border="0"
+                border={0}
               >
                 <tr>
                   <td align="center" style={{ paddingBottom: '16px' }}>
