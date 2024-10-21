@@ -125,6 +125,7 @@ export default function HomePage() {
           <Input
             type="tel"
             placeholder="Phone Number (Optional)"
+            className='mb-4'
             value={inputValuePhone}
             onChange={handleInputChangePhone}
           />
