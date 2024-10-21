@@ -6,7 +6,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(request: Request) {
   const { email, name } = await request.json();
   const { data, error } = await resend.emails.send({
-    from: 'adam@nomster.me',
+    from: 'nomster@nomster.me',
     to: email,
     subject: 'Welcome to Nomster!',
     react: EmailTemplate({ firstName: name}),
