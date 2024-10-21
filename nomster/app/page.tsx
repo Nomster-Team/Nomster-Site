@@ -9,7 +9,7 @@ export default function HomePage() {
   const [inputValueEmail, setInputValueEmail] = useState('');
   const [inputValueName, setInputValueName] = useState('');
   const [inputValuePhone, setInputValuePhone] = useState('');
-  const [info, setInfo] = useState('Sign up to win $100!');
+  const [info, setInfo] = useState('Sign up to win \$100!');
 
   const isSubmitting = useRef(false);
 
@@ -76,7 +76,7 @@ export default function HomePage() {
           setInputValueName('');
           setInputValueEmail('');
           setInputValuePhone('');
-          setInfo('Sign up to win $100!');
+          setInfo('Sign up to win \$100!');
           isSubmitting.current = false;
         }, 4000);
       } else {
@@ -130,7 +130,7 @@ export default function HomePage() {
             onChange={handleInputChangePhone}
           />
           <Button onClick={handleSubmit}>Sign Up</Button>
-          <motion.p className="mt-auto text-slate-500 font-bubbly font-thin italic text-xl drop-shadow">
+          <motion.p className="mt-auto text-slate-500 font-thin italic text-xl drop-shadow">
             {info}
           </motion.p>
           <svg className="drop-shadow-xl absolute top-[0.2vh] left-1/2 -z-10 transform -translate-x-1/2 size-[16rem]" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1280 1024">
