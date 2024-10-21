@@ -5,6 +5,8 @@ import * as motion from "framer-motion/client";
 import { Button } from "@/components/ui/button";
 import "./globals.css";
 import { use, useState, useRef, useEffect } from 'react';
+import Head from 'next/head';
+
 
 export default function RootLayout({
 }: {
@@ -97,11 +99,13 @@ export default function RootLayout({
 
   return (
     <html>
-      <link rel="icon" type="image/png" href="/favicon-48x48.png" sizes="48x48" />
-      <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+      <Head>
+      <link rel="icon" href="/favicon-48x48.png" sizes="48x48" type="image/png" />
+      <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       <link rel="shortcut icon" href="/favicon.ico" />
       <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
       <link rel="manifest" href="/site.webmanifest" />
+    </Head>
       <body>
         <motion.div
           animate={{
