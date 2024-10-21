@@ -9,7 +9,7 @@ export default function HomePage() {
   const [inputValueEmail, setInputValueEmail] = useState('');
   const [inputValueName, setInputValueName] = useState('');
   const [inputValuePhone, setInputValuePhone] = useState('');
-  const [info, setInfo] = useState('Coming soon');
+  const [info, setInfo] = useState('Sign up to win $100!');
 
   const isSubmitting = useRef(false);
 
@@ -76,7 +76,7 @@ export default function HomePage() {
           setInputValueName('');
           setInputValueEmail('');
           setInputValuePhone('');
-          setInfo('Coming soon');
+          setInfo('Sign up to win $100!');
           isSubmitting.current = false;
         }, 4000);
       } else {
