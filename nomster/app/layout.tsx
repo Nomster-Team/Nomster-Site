@@ -1,10 +1,10 @@
 "use client"
-import { Input } from "@/components/ui/input"
-import Image from "next/image"
-import * as motion from "framer-motion/client"
-import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input";
+import Image from "next/image";
+import * as motion from "framer-motion/client";
+import { Button } from "@/components/ui/button";
 import "./globals.css";
-import { use, useState, useEffect } from 'react';
+import { use, useState, useRef, useEffect } from 'react';
 
 export default function RootLayout({
 }: {
@@ -15,46 +15,39 @@ export default function RootLayout({
   const [inputValuePhone, setInputValuePhone] = useState("");
   const [info, setInfo] = useState("Coming soon");
 
+  const isSubmitting = useRef(false);
+
   const handleInputChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValueEmail(event.target.value)
+    setInputValueEmail(event.target.value);
   };
 
   const handleInputChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValueName(event.target.value)
+    setInputValueName(event.target.value);
   };
 
   const handleInputChangePhone = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValuePhone(event.target.value)
+    setInputValuePhone(event.target.value);
   };
 
-  useEffect(() => {
-    setInfo("Coming soon");
-  }, [inputValueEmail, inputValueName, inputValuePhone]);
-  
+  const handleSubmit = async () => {
+    if (isSubmitting.current) return; 
+    isSubmitting.current = true;
 
-  const handleSubmit =  async () => {
-    console.log("importing")
     if (inputValueEmail === "" || inputValueName === "") {
       setInfo("Please fill out all forms!");
-      return
-    } 
+      isSubmitting.current = false;
+      return;
+    }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^[0-9]{10,15}$/;
-    if (!emailRegex.test(inputValueEmail)) {
+    if (!emailRegex.test(inputValueEmail) || (inputValuePhone && !phoneRegex.test(inputValuePhone))) {
       setInfo("Please make sure all forms are correct!");
-      return
-    }
-
-    if (inputValuePhone !== "") {
-      if (!phoneRegex.test(inputValuePhone)) {
-        setInfo("Please make sure all forms are correct!");
-        return;
-      }
+      isSubmitting.current = false;
+      return;
     }
 
     const sanitizedInput = inputValuePhone === '' ? null : inputValuePhone;
-
     const payload = {
       Name: inputValueName,
       Email: inputValueEmail,
@@ -64,60 +57,48 @@ export default function RootLayout({
     try {
       const response = await fetch('/api/supabase-insert', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-  
+
       const result = await response.json();
-  
+
       if (response.ok) {
         console.log('Data inserted successfully:', result.data);
         setInfo("Thanks! We'll reach out to you soon about Nomster!");
-        try {
-          const response = await fetch('/api/send-email', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              email: inputValueEmail,
-              name: inputValueName,
-            }),
-          });
-      
-          // Log the response status and text for debugging
-          if (!response.ok) {
-            const errorText = await response.text(); // Get the response text
-            console.error('Error sending email:', response.status, errorText);
-            setInfo('Error sending email. Please try again later.');
-            return;
-          }
-      
-          const result = await response.json();
-          console.log('Email sent successfully:', result);
-        } catch (error) {
-          console.error('Fetch error:', error);
-          setInfo('An unexpected error occurred. Please try again later.');
-        }
-        await new Promise(r => setTimeout(r, 4000));
-        setInputValueName('');
-        setInputValueEmail('');
-        setInputValuePhone('');
+
+        await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: inputValueEmail,
+            name: inputValueName,
+          }),
+        });
+
+        setTimeout(() => {
+          setInputValueName('');
+          setInputValueEmail('');
+          setInputValuePhone('');
+          setInfo("Coming soon");
+          isSubmitting.current = false;
+        }, 4000);
 
       } else {
-        console.error('Error inserting data:', result.error);
+        setInfo('Error inserting data. Please try again.');
+        isSubmitting.current = false;
       }
     } catch (error) {
       console.error('Fetch error:', error);
+      setInfo('An unexpected error occurred. Please try again later.');
+      isSubmitting.current = false;
     }
-  }
-  
+  };
+
   return (
     <html>
       <body>
-          <motion.div 
+        <motion.div
           animate={{
             background: [
               "linear-gradient(to top, #FED8DF, #FED8DF)",
@@ -131,27 +112,31 @@ export default function RootLayout({
             repeat: Infinity,
             repeatType: "reverse",
           }}
-          className="z-0 relative flex h-screen w-screen bg-gradient-to-b from-[#FED8DF] to-blue-200">
-            <div className="z-20 m-auto text-center">
-              <div className="mb-8">
+          className="z-0 relative flex h-screen w-screen bg-gradient-to-b from-[#FED8DF] to-blue-200"
+        >
+          <div className="z-20 m-auto text-center">
+            <div className="mb-8">
               <motion.h1 
-                animate={{y:[20, -20, 20]}} 
-                transition={{ repeat: Infinity, duration: 7, repeatType:"loop", ease:"easeInOut"}}
-                className="font-bubbly text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold drop-shadow-lg text-white mb-6">NOMSTER</motion.h1>
-              </div>
-            <div className="h-4">
+                animate={{ y: [20, -20, 20] }} 
+                transition={{ repeat: Infinity, duration: 7, repeatType: "loop", ease: "easeInOut" }}
+                className="font-bubbly text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold drop-shadow-lg text-white mb-6"
+              >
+                NOMSTER
+              </motion.h1>
             </div>
-              <div className="flex flex-col gap-3">
-                <div className="flex flex-row space-x-4 mb-4">
-                  <Input placeholder="Full Name" className="placeholder:italic placeholder:text-slate-400" value={inputValueName} onChange={handleInputChangeName}/>
-                <Input type="email" placeholder="Email" className="placeholder:italic placeholder:text-slate-400" value={inputValueEmail} onChange={handleInputChangeEmail}/>
-                </div>
-                <Input type="tel" placeholder="Phone Number (Optional)" className="mb-4 placeholder:italic placeholder:text-slate-400" value={inputValuePhone} onChange={handleInputChangePhone}/>
-
-                <Button onClick={handleSubmit}>Sign Up</Button>
-                <motion.p 
-                className="mt-auto text-slate-500 font-bubbly font-thin italic text-xl drop-shadow">{info}</motion.p>
-                <svg className="drop-shadow-xl absolute top-[0.2vh] left-1/2 -z-10 transform -translate-x-1/2 size-[16rem]" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1280 1024">
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-row space-x-4 mb-4">
+                <Input placeholder="Full Name" value={inputValueName} onChange={handleInputChangeName} />
+                <Input type="email" placeholder="Email" value={inputValueEmail} onChange={handleInputChangeEmail} />
+              </div>
+              <Input type="tel" placeholder="Phone Number (Optional)" value={inputValuePhone} onChange={handleInputChangePhone} />
+              <Button onClick={handleSubmit}>Sign Up</Button>
+              <motion.p
+                className="mt-auto text-slate-500 font-bubbly font-thin italic text-xl drop-shadow"
+              >
+                {info}
+              </motion.p>
+              <svg className="drop-shadow-xl absolute top-[0.2vh] left-1/2 -z-10 transform -translate-x-1/2 size-[16rem]" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1280 1024">
                   <g>
                     <g id="Layer_1">
                       <g>
@@ -166,10 +151,9 @@ export default function RootLayout({
                     </g>
                   </g>
                 </svg>
-              </div>
             </div>
-          </motion.div>
-          
+          </div>
+        </motion.div>
       </body>
     </html>
   );
