@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import {motion} from 'framer-motion';
+import { motion } from 'framer-motion';
 
 export default function HomePage() {
   const [inputValueEmail, setInputValueEmail] = useState('');
@@ -14,14 +14,17 @@ export default function HomePage() {
   const isSubmitting = useRef(false);
 
   const handleInputChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInfo('Sign up for a chance to win \$100!');
     setInputValueEmail(event.target.value);
   };
 
   const handleInputChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInfo('Sign up for a chance to win \$100!');
     setInputValueName(event.target.value);
   };
 
   const handleInputChangePhone = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInfo('Sign up for a chance to win \$100!');
     setInputValuePhone(event.target.value);
   };
 
@@ -39,6 +42,19 @@ export default function HomePage() {
     const phoneRegex = /^[0-9]{10,15}$/;
     if (!emailRegex.test(inputValueEmail) || (inputValuePhone && !phoneRegex.test(inputValuePhone))) {
       setInfo('Please make sure all forms are correct!');
+      isSubmitting.current = false;
+      return;
+    }
+
+    const response = await fetch(`/api/supabase-check?email=${inputValueEmail}`, {
+      method:'GET',
+      headers:{ 'Content-Type': 'application/json' },
+    })
+
+    const data = await response.json();
+    
+    if (data.exists) {
+      setInfo('Looks like you already signed up, thank you!');
       isSubmitting.current = false;
       return;
     }
