@@ -17,22 +17,22 @@ export default function HomePage() {
     }
   }, []);
 
-  const [info, setInfo] = useState('Sign up for a chance to win \$100!');
+  const [info, setInfo] = useState('Coming soon');
 
   const isSubmitting = useRef(false);
 
   const handleInputChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInfo('Sign up for a chance to win \$100!');
+    setInfo('Coming soon');
     setInputValueEmail(event.target.value);
   };
 
   const handleInputChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInfo('Sign up for a chance to win \$100!');
+    setInfo('Coming soon');
     setInputValueName(event.target.value);
   };
 
   const handleInputChangePhone = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInfo('Sign up for a chance to win \$100!');
+    setInfo('Coming soon');
     setInputValuePhone(event.target.value);
   };
 
