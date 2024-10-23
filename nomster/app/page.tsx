@@ -222,7 +222,7 @@ export default function HomePage() {
         repeat: Infinity,
         repeatType: 'reverse',
       }}
-      className="absolute flex-col justify-center items-center inset-0 z-10 pointer-events-none flex h-screen w-screen bg-gradient-to-b from-[#FED8DF] to-blue-200"
+      className="absolute flex-col justify-center items-center inset-0 z-10 flex h-screen w-screen bg-gradient-to-b from-[#FED8DF] to-blue-200"
       style={{ clipPath: 'polygon(70% 0, 100% 0, 100% 100%, 0% 100%)' }}
   >
     <div className="ml-auto sm:mt-[30vh] md:mt-[20vh] lg:mt-[10vh] mt-[40vh] mr-[15vw] flex flex-col gap-3 items-center">
