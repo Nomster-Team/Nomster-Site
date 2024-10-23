@@ -9,13 +9,15 @@ export default function HomePage() {
   const [inputValueEmail, setInputValueEmail] = useState('');
   const [inputValueName, setInputValueName] = useState('');
   const [inputValuePhone, setInputValuePhone] = useState('');
- const [isPhone, setIsPhone] = useState(false);
+  const [isPhone, setIsPhone] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setIsPhone(window.matchMedia('(max-width: 600px)').matches);
-    }
-  }, []);
+ useEffect(() => {
+   if (typeof window !== 'undefined') {
+     setIsPhone(window.matchMedia('(max-width: 600px)').matches);
+     setLoading(false); 
+   }
+ }, []);
 
   const [info, setInfo] = useState('Coming soon');
 
@@ -114,9 +116,30 @@ export default function HomePage() {
     }
   };
 
+  if (loading) {
+    return (
+      <motion.div
+        animate={{
+          background: [
+            'linear-gradient(to top, #FED8DF, #FED8DF)',
+            'linear-gradient(to top, #FED8DF, #BFDBFE)',
+            'linear-gradient(to top, #BFDBFE, #BFDBFE)',
+            'linear-gradient(to top, #BFDBFE, #FED8DF)',
+          ],
+        }}
+        transition={{
+          duration: 15,
+          repeat: Infinity,
+          repeatType: 'reverse',
+        }}
+        className="h-screen w-screen"
+      />
+    );
+  }
+
   return (
     <>
-    {isPhone &&
+    {isPhone ?
     (<motion.div
       animate={{
         background: [
@@ -177,8 +200,7 @@ export default function HomePage() {
         </div>
       </div>
     </motion.div>)
-    }
-    {!isPhone &&
+    :
     <>
     <motion.div
       animate={{
