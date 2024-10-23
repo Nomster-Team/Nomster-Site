@@ -87,7 +87,7 @@ export default function HomePage() {
 
       if (response.ok) {
         console.log('Data inserted successfully:', result.data);
-        setInfo("Thanks! We'll reach out to you soon about Nomster!");
+        setInfo("We'll reach out to you about Nomster soon!");
 
         await fetch('/api/send-email', {
           method: 'POST',
