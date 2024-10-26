@@ -102,7 +102,7 @@ export default function HomePage() {
           setInputValueName('');
           setInputValueEmail('');
           setInputValuePhone('');
-          setInfo('Sign up for a chance to win \$100!');
+          setInfo('Coming soon');
           isSubmitting.current = false;
         }, 4000);
       } else {
