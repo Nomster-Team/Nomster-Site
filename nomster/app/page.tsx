@@ -182,7 +182,7 @@ export default function HomePage() {
           <motion.div
             initial={{ x: '-50vw', y: '50vh', opacity:0}}
             animate={{ x: 0, y: 0, opacity:1}}
-            transition={{ease:'anticipate', duration: 1.5 }}
+            transition={{ease:'anticipate', duration: 2 }}
             className="z-0 relative flex h-screen w-screen bg-gradient-to-b from-[#FED8DF] to-blue-200"
             style={{ clipPath: 'polygon(0 0, 0 0, 70vw 0, 0% 100vh)' }}
           >
