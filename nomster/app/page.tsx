@@ -196,18 +196,26 @@ export default function HomePage() {
         <>
           <motion.div
             initial={{ x: '-50vw', y: '50vh', opacity:0}}
-            animate={{ x: 0, y: 0, opacity:1}}
-            transition={{ease:'anticipate', duration: 2 }}
+            animate={{ x: 0, y: 0, opacity:1, background: [
+              'linear-gradient(270deg, #FED8DF, #BFDBFE)',
+              'linear-gradient(180deg, #BFDBFE, #FED8DF)',
+              'linear-gradient(90deg, #FED8DF, #BFDBFE)',
+              'linear-gradient(0deg, #FED8DF, #FED8DF)',
+            ]}}
+            transition={{ease:'anticipate', duration: 2, background: { 
+              duration: 10,
+              repeat: Infinity,
+              repeatType: 'reverse',}}}
             className="z-0 relative flex h-screen w-screen bg-gradient-to-b from-[#FED8DF] to-blue-200"
             style={{ clipPath: 'polygon(0 0, 0 0, 70vw 0, 0% 100vh)' }}
           >
             <div className="flex flex-col items-center mt-[30vh]">
               <div className="ml-[1vw] sm:ml-[2vw] md:ml-[3vw] lg:ml-[4vw] flex items-center flex-col">
-                <motion.h1
-                  initial={{ x: 50, y: -50, opacity: 0 }}
-                  animate={{ x: 0, y: 0, opacity: 1 }}
-                  transition={{ duration: 1 }}
-                  className="font-bubbly text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold drop-shadow-lg text-white mb-6"
+              <motion.h1
+              animate={{ y: [10, -10, 10] }}
+              transition={{ repeat: Infinity, duration: 7, repeatType: 'loop', ease: 'easeInOut' }}
+              className="font-bubbly text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold drop-shadow-lg text-white mb-6 text-center"
+              style={{ willChange: 'transform' }} // Performance optimization
                 >
                   NOMSTER
                 </motion.h1>
@@ -224,8 +232,17 @@ export default function HomePage() {
           </motion.div>
           <motion.div
             initial={{ x: '50vw', y: '-50vh', opacity:0}}
-            animate={{ x: 0, y: 0, opacity:1}}
-            transition={{ ease:'anticipate', duration: 2 }}
+            animate={{ x: 0, y: 0, opacity:1, background: [
+              'linear-gradient(0deg, #FED8DF, #FED8DF)',
+              'linear-gradient(90deg, #FED8DF, #BFDBFE)',
+              'linear-gradient(180deg, #BFDBFE, #FED8DF)',
+              'linear-gradient(270deg, #FED8DF, #BFDBFE)',
+            ]}}
+            transition={{ ease:'anticipate', duration: 2, background: {
+              duration: 10,
+              repeat: Infinity,
+              repeatType: 'reverse',
+            }}}
             className="absolute flex-col justify-center items-center inset-0 z-10 flex h-screen w-screen bg-gradient-to-b from-[#FED8DF] to-blue-200"
             style={{ clipPath: 'polygon(70vw 0, 100vw 0, 100vw 100vh, 0% 100vh)' }}
           >

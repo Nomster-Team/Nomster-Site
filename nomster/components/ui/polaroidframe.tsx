@@ -17,15 +17,15 @@ const PolaroidFrame: React.FC<PolaroidFrameProps> = ({ imageUrl, caption, absolu
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, ease: "linear" }}
-      className={`${absolute && "absolute"} max-w-4xl max-w-sm mx-auto bg-white shadow-lg rounded-lg overflow-hidden`}
+      className={`${absolute && "absolute"} max-w-4xl max-w-sm mx-auto bg-white shadow-lg rounded-xl overflow-hidden`}
       style={{ transform: `rotate(${rotationAngle}deg)` }}
     >
       <div className="p-4">
-        <div className="bg-gray-200 p-2">
+        <div className="bg-gray-200 p-2 rounded-xl">
           <img
             src={imageUrl}
             alt={altText || caption}
-            className="w-full h-64 object-cover"
+            className="w-full h-64 object-cover rounded-xl"
           />
         </div>
         <div className="mt-4 text-center">

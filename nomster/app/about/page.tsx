@@ -74,7 +74,7 @@ export default function AboutPage() {
           <motion.span className="relative inline-block px-2 py-1">
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
+              animate={{ scale: 1, opacity: 0.6 }}
               transition={{ delay: 0.7, duration: 0.5 }}
               className="absolute inset-0 -z-10 bg-white rounded-lg"
             />
@@ -84,7 +84,7 @@ export default function AboutPage() {
           <motion.span className="relative inline-block px-2 py-1">
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
+              animate={{ scale: 1, opacity: 0.6 }}
               transition={{ delay: 0.9, duration: 0.5 }}
               className="absolute inset-0 -z-10 bg-white rounded-lg"
             />
@@ -93,7 +93,7 @@ export default function AboutPage() {
           <motion.span className="relative inline-block px-2 py-1">
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
+              animate={{ scale: 1, opacity: 0.6 }}
               transition={{ delay: 1.1, duration: 0.5 }}
               className="absolute inset-0 -z-10 bg-white rounded-lg"
             />
@@ -102,11 +102,12 @@ export default function AboutPage() {
           <motion.span className="relative inline-block px-2 py-1">
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
+              animate={{ scale: 1, opacity: 0.6 }}
               transition={{ delay: 1.3, duration: 0.5 }}
-              className="absolute inset-0 -z-10 bg-white rounded-lg"
+              className="absolute inset-0 -z-10 bg-white rounded-lg h-9"
             />
             Nomster,
+            <div className='h-3'></div>
           </motion.span> blends the joy of food with cutting-edge mobile gaming.
         </motion.p>
       </section>
@@ -215,7 +216,7 @@ export default function AboutPage() {
           <motion.span className="relative inline-block px-2 py-1">
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
+              animate={{ scale: 1, opacity: 0.6 }}
               transition={{ delay: 0.7, duration: 0.5 }}
               className="absolute inset-0 -z-10 bg-white rounded-lg"
             />
@@ -225,7 +226,7 @@ export default function AboutPage() {
           <motion.span className="relative inline-block px-2 py-1">
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
+              animate={{ scale: 1, opacity: 0.6 }}
               transition={{ delay: 0.9, duration: 0.5 }}
               className="absolute inset-0 -z-10 bg-white rounded-lg"
             />
@@ -234,7 +235,7 @@ export default function AboutPage() {
           <motion.span className="relative inline-block px-2 py-1">
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
+              animate={{ scale: 1, opacity: 0.6 }}
               transition={{ delay: 1.1, duration: 0.5 }}
               className="absolute inset-0 -z-10 bg-white rounded-lg"
             />
@@ -243,12 +244,14 @@ export default function AboutPage() {
           <motion.span className="relative inline-block px-2 py-1">
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
+              animate={{ scale: 1, opacity: 0.6 }}
               transition={{ delay: 1.3, duration: 0.5 }}
               className="absolute inset-0 -z-10 bg-white rounded-lg"
             />
             Nomster,
-          </motion.span> blends the joy of food with cutting-edge mobile gaming.
+          </motion.span> blends the joy of food with 
+          <div className='h-0.1'></div>
+          <span className='mt-2'> cutting-edge mobile gaming.</span>
         </motion.p>
       </section>
 
