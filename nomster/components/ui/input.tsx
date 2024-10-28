@@ -11,7 +11,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <motion.div
         className="inline-block w-full"
         whileHover={{ scale: 1.02 }}
-        whileFocusWithin={{ scale: 1.02 }}
         transition={{ duration: 0.2, ease: "easeInOut" }}
       >
         <input
