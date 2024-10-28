@@ -32,13 +32,13 @@ export default function Navbar() {
         // Mobile Navigation
         <div className="relative">
           <motion.div
-            className="bg-white/30 backdrop-blur-md rounded-full p-4 shadow-white shadow-lg"
+            className="bg-white/30 backdrop-blur-md rounded-full p-4 shadow-lg"
             whileHover={{ scale: 1.02 }}
           >
             <div className="flex justify-between items-center">
               <Link href="/">
                 <motion.span
-                  className="font-bubbly text-2xl font-bold text-[#FED8DF]"
+                  className="font-bubbly text-2xl font-bold text-slate-700"
                   whileHover={{ scale: 1.05 }}
                 >
                   BonsAI
