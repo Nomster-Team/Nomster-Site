@@ -12,12 +12,42 @@ export default function HomePage() {
   const [inputValuePhone, setInputValuePhone] = useState('');
   const [isPhone, setIsPhone] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [lineCoordinates, setLineCoordinates] = useState({
+    x1: 0,
+    y1: 0,
+    x2: 0,
+    y2: 0,
+  });
+  
 
  useEffect(() => {
    if (typeof window !== 'undefined') {
      setIsPhone(window.matchMedia('(max-width: 600px)').matches);
      setLoading(false); 
    }
+
+   const updateLineCoordinates = () => {
+    const vh = window.innerHeight;
+    const vw = window.innerWidth;
+
+    setLineCoordinates({
+      // 70% of the viewport width
+      x1: 0.7 * vw,
+      // Start at 0% of the viewport height
+      y1: 0,
+      // End at 0% of the viewport width
+      x2: 0,
+      // End at 100% of the viewport height
+      y2: vh,
+    });
+  };
+
+  // Set initial line coordinates
+  updateLineCoordinates();
+
+  // Update on window resize
+  window.addEventListener('resize', updateLineCoordinates);
+  return () => window.removeEventListener('resize', updateLineCoordinates);
  }, []);
 
   const [info, setInfo] = useState('Coming soon');
@@ -315,10 +345,10 @@ export default function HomePage() {
       </defs>
 
       <line
-        x1="70%"
-        y1="0%"
-        x2="0%"
-        y2="100%"
+        x1={lineCoordinates.x1}
+        y1={lineCoordinates.y1}
+        x2={lineCoordinates.x2}
+        y2={lineCoordinates.y2}
         stroke="url(#beam-gradient)"
         strokeWidth="2"
         style={{
