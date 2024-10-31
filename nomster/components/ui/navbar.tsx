@@ -19,7 +19,7 @@ export default function Navbar() {
   const navItems = [
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
-    { name: 'Socials', path: '/socials' },
+    { name: 'Partners', path: '/partners' },
   ];
 
   return (
@@ -80,7 +80,7 @@ export default function Navbar() {
                       className={`py-2 px-4 rounded-full mb-2 ${
                         pathname === item.path
                           ? 'bg-[#FED8DF]/50 text-slate-700'
-                          : 'text-slate-600 hover:bg-[#BFDBFE]/30'
+                          : 'text-slate-600 hover:bg-[#e6f0e7]/30'
                       }`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -120,7 +120,7 @@ export default function Navbar() {
                     className={`py-2 px-6 rounded-full text-lg transition-colors ${
                       pathname === item.path
                         ? 'bg-[#FED8DF]/50 text-slate-700'
-                        : 'text-slate-600 hover:bg-[#BFDBFE]/30'
+                        : 'text-slate-600 hover:bg-[#e6f0e7]/30'
                     }`}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}

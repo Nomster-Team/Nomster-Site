@@ -29,7 +29,12 @@ const PolaroidFrame: React.FC<PolaroidFrameProps> = ({ imageUrl, caption, absolu
           />
         </div>
         <div className="mt-4 text-center">
-          <p className="text-gray-700 text-lg font-handwriting">{caption}</p>
+          <p className="text-gray-700 text-lg font-handwriting">{caption.split("\n").map((line, index) => (
+    <span key={index}>
+      {line}
+      <br />
+    </span>
+  ))}</p>
         </div>
       </div>
     </motion.div>

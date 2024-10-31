@@ -12,6 +12,7 @@ export default function HomePage() {
   const [inputValuePhone, setInputValuePhone] = useState('');
   const [isPhone, setIsPhone] = useState(false);
   const [loading, setLoading] = useState(true);
+
   const [lineCoordinates, setLineCoordinates] = useState({
     x1: 0,
     y1: 0,
@@ -50,22 +51,22 @@ export default function HomePage() {
   return () => window.removeEventListener('resize', updateLineCoordinates);
  }, []);
 
-  const [info, setInfo] = useState('Coming soon');
+  const [info, setInfo] = useState('');
 
   const isSubmitting = useRef(false);
 
   const handleInputChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInfo('Coming soon');
+    setInfo('');
     setInputValueEmail(event.target.value);
   };
 
   const handleInputChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInfo('Coming soon');
+    setInfo('');
     setInputValueName(event.target.value);
   };
 
   const handleInputChangePhone = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInfo('Coming soon');
+    setInfo('');
     setInputValuePhone(event.target.value);
   };
 
@@ -133,7 +134,7 @@ export default function HomePage() {
           setInputValueName('');
           setInputValueEmail('');
           setInputValuePhone('');
-          setInfo('Coming soon');
+          setInfo('');
           isSubmitting.current = false;
         }, 4000);
       } else {
@@ -152,10 +153,7 @@ export default function HomePage() {
       <motion.div
         animate={{
           background: [
-            'linear-gradient(to top, #FED8DF, #FED8DF)',
-            'linear-gradient(to top, #FED8DF, #BFDBFE)',
-            'linear-gradient(to top, #BFDBFE, #BFDBFE)',
-            'linear-gradient(to top, #BFDBFE, #FED8DF)',
+            'linear-gradient(to top, #e6f0e7, #e6f0e7, #FED8DF, #fae7e3)',
           ],
         }}
         transition={{
@@ -173,9 +171,11 @@ export default function HomePage() {
       {isPhone ? (
         <motion.div
           initial={{ x: '-100vw', y: '100vh' }}
-          animate={{ x: 0, y: 0 }}
+          animate={{ x: 0, y: 0, background: [
+            'linear-gradient(to top, #e6f0e7, #e6f0e7, #FED8DF, #fae7e3)',
+          ],}}
           transition={{ ease:'anticipate', duration: 2 }}
-          className="z-0 relative flex h-screen w-screen bg-gradient-to-b from-[#FED8DF] to-blue-200"
+          className="z-0 relative flex h-screen w-screen"
         >
           <div className="z-20 m-auto text-center items-center flex flex-col">
           <svg className="drop-shadow-xl -z-10 transform size-[12rem]" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1280 1024">
@@ -215,7 +215,7 @@ export default function HomePage() {
                 value={inputValuePhone}
                 onChange={handleInputChangePhone}
               />
-              <Button onClick={handleSubmit}>Sign Up</Button>
+              <Button className='bg-[#FFB4C1] text-black hover:bg-[#FFC9D4]' onClick={handleSubmit}>Sign Up</Button>
               <motion.p className="mt-auto text-slate-500 font-thin italic text-xl drop-shadow">
                 {info}
               </motion.p>
@@ -224,19 +224,20 @@ export default function HomePage() {
         </motion.div>
       ) : (
         <>
+          <div className="h-screen w-screen overflow-hidden">
           <motion.div
             initial={{ x: '-50vw', y: '50vh', opacity:0}}
             animate={{ x: 0, y: 0, opacity:1, background: [
-              'linear-gradient(270deg, #FED8DF, #BFDBFE)',
-              'linear-gradient(180deg, #BFDBFE, #FED8DF)',
-              'linear-gradient(90deg, #FED8DF, #BFDBFE)',
-              'linear-gradient(0deg, #FED8DF, #FED8DF)',
+              'linear-gradient(270deg, #e6f0e7, #cbdbcd)',
+              'linear-gradient(180deg, #cbdbcd, #e6f0e7)',
+              'linear-gradient(90deg, #e6f0e7, #cbdbcd)',
+              'linear-gradient(0deg, #cbdbcd, #e6f0e7)',
             ]}}
             transition={{ease:'anticipate', duration: 2, background: { 
               duration: 10,
               repeat: Infinity,
               repeatType: 'reverse',}}}
-            className="z-0 relative flex h-screen w-screen bg-gradient-to-b from-[#FED8DF] to-blue-200"
+            className="z-0 relative flex h-screen w-screen"
             style={{ clipPath: 'polygon(0 0, 0 0, 70vw 0, 0% 100vh)' }}
           >
             <div className="flex flex-col items-center mt-[30vh]">
@@ -253,9 +254,10 @@ export default function HomePage() {
                   initial={{ x: 50, y: -50, opacity: 0 }}
                   animate={{ x: 0, y: 0, opacity: 1 }}
                   transition={{ duration: 1 }}
-                  className="mt-auto text-slate-500 font-thin italic md:text-2xl sm:text-xl drop-shadow"
+                  className="mt-auto text-slate-500 bold italic md:text-2xl sm:text-xl drop-shadow text-center"
                 >
-                  Foodie Companion
+                  Foodie Companion <br></br><br></br>
+                  Coming Soon
                 </motion.p>
               </div>
             </div>
@@ -263,17 +265,17 @@ export default function HomePage() {
           <motion.div
             initial={{ x: '50vw', y: '-50vh', opacity:0}}
             animate={{ x: 0, y: 0, opacity:1, background: [
-              'linear-gradient(0deg, #FED8DF, #FED8DF)',
-              'linear-gradient(90deg, #FED8DF, #BFDBFE)',
-              'linear-gradient(180deg, #BFDBFE, #FED8DF)',
-              'linear-gradient(270deg, #FED8DF, #BFDBFE)',
+              'linear-gradient(270deg, #FED8DF, #FAE7E3)',
+              'linear-gradient(180deg, #FAE7E3, #FED8DF)',
+              'linear-gradient(90deg, #FED8DF, #FAE7E3)',
+              'linear-gradient(0deg, #FAE7E3, #FED8DF)',
             ]}}
             transition={{ ease:'anticipate', duration: 2, background: {
               duration: 10,
               repeat: Infinity,
               repeatType: 'reverse',
             }}}
-            className="absolute flex-col justify-center items-center inset-0 z-10 flex h-screen w-screen bg-gradient-to-b from-[#FED8DF] to-blue-200"
+            className="absolute overflow-hideen flex-col justify-center items-center inset-0 z-10 flex h-screen w-screen"
             style={{ clipPath: 'polygon(70vw 0, 100vw 0, 100vw 100vh, 0% 100vh)' }}
           >
             <div className="ml-auto sm:mt-[30vh] md:mt-[20vh] lg:mt-[10vh] mt-[40vh] mr-[15vw] flex flex-col gap-3 items-center">
@@ -304,12 +306,13 @@ export default function HomePage() {
                 value={inputValuePhone}
                 onChange={handleInputChangePhone}
               />
-              <Button className='w-full' onClick={handleSubmit}>Sign Up</Button>
+              <Button className='w-full bg-[#FFB4C1] hover:bg-[#FFC9D4] text-black' onClick={handleSubmit}>Sign Up</Button>
               <motion.p className="mt-auto text-slate-500 font-thin italic text-xl drop-shadow">
                 {info}
               </motion.p>
             </div>
           </motion.div>
+          </div>
           <svg
       className="absolute inset-0 z-20 pointer-events-none w-full h-full"
       xmlns="http://www.w3.org/2000/svg"
