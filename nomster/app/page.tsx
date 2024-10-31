@@ -134,7 +134,9 @@ export default function HomePage() {
           setInputValueName('');
           setInputValueEmail('');
           setInputValuePhone('');
+
           setInfo('');
+
           isSubmitting.current = false;
         }, 4000);
       } else {
