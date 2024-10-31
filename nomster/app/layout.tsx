@@ -1,6 +1,8 @@
 import './globals.css';
 import { Metadata } from 'next';
 import { ReactNode } from 'react';
+import Navbar from '@/components/ui/navbar';
+import CuteFooter from '@/components/ui/footer';
 
 export const metadata = {
   title: 'Nomster',
@@ -18,7 +20,14 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <main>
+          <Navbar />
+          {children}
+        </main>
+        <CuteFooter></CuteFooter>
+
+      </body>
     </html>
   );
 }

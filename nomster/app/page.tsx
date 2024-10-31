@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
+import CuteFooter from '@/components/ui/footer';
 
 export default function HomePage() {
   const [inputValueEmail, setInputValueEmail] = useState('');
@@ -12,29 +13,60 @@ export default function HomePage() {
   const [isPhone, setIsPhone] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const [lineCoordinates, setLineCoordinates] = useState({
+    x1: 0,
+    y1: 0,
+    x2: 0,
+    y2: 0,
+  });
+  
+
  useEffect(() => {
    if (typeof window !== 'undefined') {
      setIsPhone(window.matchMedia('(max-width: 600px)').matches);
      setLoading(false); 
    }
+
+   const updateLineCoordinates = () => {
+    const vh = window.innerHeight;
+    const vw = window.innerWidth;
+
+    setLineCoordinates({
+      // 70% of the viewport width
+      x1: 0.7 * vw,
+      // Start at 0% of the viewport height
+      y1: 0,
+      // End at 0% of the viewport width
+      x2: 0,
+      // End at 100% of the viewport height
+      y2: vh,
+    });
+  };
+
+  // Set initial line coordinates
+  updateLineCoordinates();
+
+  // Update on window resize
+  window.addEventListener('resize', updateLineCoordinates);
+  return () => window.removeEventListener('resize', updateLineCoordinates);
  }, []);
 
-  const [info, setInfo] = useState('Coming soon');
+  const [info, setInfo] = useState('');
 
   const isSubmitting = useRef(false);
 
   const handleInputChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInfo('Coming soon');
+    setInfo('');
     setInputValueEmail(event.target.value);
   };
 
   const handleInputChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInfo('Coming soon');
+    setInfo('');
     setInputValueName(event.target.value);
   };
 
   const handleInputChangePhone = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInfo('Coming soon');
+    setInfo('');
     setInputValuePhone(event.target.value);
   };
 
@@ -102,7 +134,9 @@ export default function HomePage() {
           setInputValueName('');
           setInputValueEmail('');
           setInputValuePhone('');
-          setInfo('Coming soon');
+
+          setInfo('');
+
           isSubmitting.current = false;
         }, 4000);
       } else {
@@ -121,10 +155,7 @@ export default function HomePage() {
       <motion.div
         animate={{
           background: [
-            'linear-gradient(to top, #FED8DF, #FED8DF)',
-            'linear-gradient(to top, #FED8DF, #BFDBFE)',
-            'linear-gradient(to top, #BFDBFE, #BFDBFE)',
-            'linear-gradient(to top, #BFDBFE, #FED8DF)',
+            'linear-gradient(to top, #e6f0e7, #e6f0e7, #FED8DF, #fae7e3)',
           ],
         }}
         transition={{
@@ -139,50 +170,17 @@ export default function HomePage() {
 
   return (
     <>
-    {isPhone ?
-    (<motion.div
-      animate={{
-        background: [
-          'linear-gradient(to top, #FED8DF, #FED8DF)',
-          'linear-gradient(to top, #FED8DF, #BFDBFE)',
-          'linear-gradient(to top, #BFDBFE, #BFDBFE)',
-          'linear-gradient(to top, #BFDBFE, #FED8DF)',
-        ],
-      }}
-      transition={{
-        duration: 15,
-        repeat: Infinity,
-        repeatType: 'reverse',
-      }}
-      className="z-0 relative flex h-screen w-screen bg-gradient-to-b from-[#FED8DF] to-blue-200"
-    >
-      <div className="z-20 m-auto text-center">
-        <div className="mb-8">
-          <motion.h1
-            animate={{ y: [20, -20, 20] }}
-            transition={{ repeat: Infinity, duration: 7, repeatType: 'loop', ease: 'easeInOut' }}
-            className="font-bubbly text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold drop-shadow-lg text-white mb-6"
-          >
-            NOMSTER
-          </motion.h1>
-        </div>
-        <div className="flex flex-col gap-3">
-          <div className="flex flex-row space-x-4 mb-4">
-            <Input placeholder="Full Name" value={inputValueName} onChange={handleInputChangeName} />
-            <Input type="email" placeholder="Email" value={inputValueEmail} onChange={handleInputChangeEmail} />
-          </div>
-          <Input
-            type="tel"
-            placeholder="Phone Number (Optional)"
-            className='mb-4'
-            value={inputValuePhone}
-            onChange={handleInputChangePhone}
-          />
-          <Button onClick={handleSubmit}>Sign Up</Button>
-          <motion.p className="mt-auto text-slate-500 font-thin italic text-xl drop-shadow">
-            {info}
-          </motion.p>
-          <svg className="drop-shadow-xl absolute top-[0.2vh] left-1/2 -z-10 transform -translate-x-1/2 size-[16rem]" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1280 1024">
+      {isPhone ? (
+        <motion.div
+          initial={{ x: '-100vw', y: '100vh' }}
+          animate={{ x: 0, y: 0, background: [
+            'linear-gradient(to top, #e6f0e7, #e6f0e7, #FED8DF, #fae7e3)',
+          ],}}
+          transition={{ ease:'anticipate', duration: 2 }}
+          className="z-0 relative flex h-screen w-screen"
+        >
+          <div className="z-20 m-auto text-center items-center flex flex-col">
+          <svg className="drop-shadow-xl -z-10 transform size-[12rem]" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1280 1024">
                   <g>
                     <g id="Layer_1">
                       <g>
@@ -197,58 +195,93 @@ export default function HomePage() {
                     </g>
                   </g>
                 </svg>
-        </div>
-      </div>
-    </motion.div>)
-    :
-    <>
-    <motion.div
-      animate={{
-        background: [
-          'linear-gradient(45deg, #FED8DF, #FED8DF)',
-          'linear-gradient(45deg, #FED8DF, #BFDBFE)',
-        ],
-      }}
-      transition={{
-        duration: 4,
-        repeat: Infinity,
-        repeatType: 'reverse',
-      }}
-      style={{clipPath: 'polygon(0 0, 0 0, 70% 0, 0% 100%)'}}
-      className="z-0 relative flex h-screen w-screen bg-gradient-to-b from-[#FED8DF] to-blue-200"
-    >
-      <div className="flex flex-col items-center mt-20">
-        <div className="flex ml-[35%] items-center flex-col">
-          <motion.h1
-            animate={{ y: [20, -20, 20] }}
-            transition={{ repeat: Infinity, duration: 7, repeatType: 'loop', ease: 'easeInOut' }}
-            className="font-bubbly text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold drop-shadow-lg text-white mb-6"
+            <div className="mb-8">
+              <motion.h1
+                initial={{ x: 0, y: -50, opacity: 0 }}
+                animate={{ x: 0, y: 0, opacity: 1 }}
+                transition={{ duration: 1 }}
+                className="font-bubbly text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold drop-shadow-lg text-white mb-6"
+              >
+                NOMSTER
+              </motion.h1>
+            </div>
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-row space-x-4 mb-4">
+                <Input placeholder="Full Name" value={inputValueName} onChange={handleInputChangeName} />
+                <Input type="email" placeholder="Email" value={inputValueEmail} onChange={handleInputChangeEmail} />
+              </div>
+              <Input
+                type="tel"
+                placeholder="Phone Number (Optional)"
+                className='mb-4'
+                value={inputValuePhone}
+                onChange={handleInputChangePhone}
+              />
+              <Button className='bg-[#FFB4C1] text-black hover:bg-[#FFC9D4]' onClick={handleSubmit}>Sign Up</Button>
+              <motion.p className="mt-auto text-slate-500 font-thin italic text-xl drop-shadow">
+                {info}
+              </motion.p>
+            </div>
+          </div>
+        </motion.div>
+      ) : (
+        <>
+          <div className="h-screen w-screen overflow-hidden">
+          <motion.div
+            initial={{ x: '-50vw', y: '50vh', opacity:0}}
+            animate={{ x: 0, y: 0, opacity:1, background: [
+              'linear-gradient(270deg, #e6f0e7, #cbdbcd)',
+              'linear-gradient(180deg, #cbdbcd, #e6f0e7)',
+              'linear-gradient(90deg, #e6f0e7, #cbdbcd)',
+              'linear-gradient(0deg, #cbdbcd, #e6f0e7)',
+            ]}}
+            transition={{ease:'anticipate', duration: 2, background: { 
+              duration: 10,
+              repeat: Infinity,
+              repeatType: 'reverse',}}}
+            className="z-0 relative flex h-screen w-screen"
+            style={{ clipPath: 'polygon(0 0, 0 0, 70vw 0, 0% 100vh)' }}
           >
-            NOMSTER
-          </motion.h1>
-          <motion.p className="mt-auto text-slate-500 font-thin italic md:text-2xl sm:text-xl drop-shadow">
-            Foodie Companion
-          </motion.p>
-        </div>
-        </div>
-    </motion.div>
-    <motion.div
-      animate={{
-        background: [
-          'linear-gradient(135deg, #BFDBFE, #BFDBFE)',
-          'linear-gradient(135deg, #BFDBFE, #FED8DF)'
-        ],
-      }}
-      transition={{
-        duration: 4,
-        repeat: Infinity,
-        repeatType: 'reverse',
-      }}
-      className="absolute flex-col justify-center items-center inset-0 z-10 flex h-screen w-screen bg-gradient-to-b from-[#FED8DF] to-blue-200"
-      style={{ clipPath: 'polygon(70% 0, 100% 0, 100% 100%, 0% 100%)' }}
-  >
-    <div className="ml-auto sm:mt-[30vh] md:mt-[20vh] lg:mt-[10vh] mt-[40vh] mr-[15vw] flex flex-col gap-3 items-center">
-    <svg className="drop-shadow-xl -z-10 transform size-[12rem]" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1280 1024">
+            <div className="flex flex-col items-center mt-[30vh]">
+              <div className="ml-[1vw] sm:ml-[2vw] md:ml-[3vw] lg:ml-[4vw] flex items-center flex-col">
+              <motion.h1
+              animate={{ y: [10, -10, 10] }}
+              transition={{ repeat: Infinity, duration: 7, repeatType: 'loop', ease: 'easeInOut' }}
+              className="font-bubbly text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold drop-shadow-lg text-white mb-6 text-center"
+              style={{ willChange: 'transform' }} // Performance optimization
+                >
+                  NOMSTER
+                </motion.h1>
+                <motion.p
+                  initial={{ x: 50, y: -50, opacity: 0 }}
+                  animate={{ x: 0, y: 0, opacity: 1 }}
+                  transition={{ duration: 1 }}
+                  className="mt-auto text-slate-500 bold italic md:text-2xl sm:text-xl drop-shadow text-center"
+                >
+                  Foodie Companion <br></br><br></br>
+                  Coming Soon
+                </motion.p>
+              </div>
+            </div>
+          </motion.div>
+          <motion.div
+            initial={{ x: '50vw', y: '-50vh', opacity:0}}
+            animate={{ x: 0, y: 0, opacity:1, background: [
+              'linear-gradient(270deg, #FED8DF, #FAE7E3)',
+              'linear-gradient(180deg, #FAE7E3, #FED8DF)',
+              'linear-gradient(90deg, #FED8DF, #FAE7E3)',
+              'linear-gradient(0deg, #FAE7E3, #FED8DF)',
+            ]}}
+            transition={{ ease:'anticipate', duration: 2, background: {
+              duration: 10,
+              repeat: Infinity,
+              repeatType: 'reverse',
+            }}}
+            className="absolute overflow-hideen flex-col justify-center items-center inset-0 z-10 flex h-screen w-screen"
+            style={{ clipPath: 'polygon(70vw 0, 100vw 0, 100vw 100vh, 0% 100vh)' }}
+          >
+            <div className="ml-auto sm:mt-[30vh] md:mt-[20vh] lg:mt-[10vh] mt-[40vh] mr-[15vw] flex flex-col gap-3 items-center">
+            <svg className="drop-shadow-xl -z-10 transform size-[12rem]" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1280 1024">
                   <g>
                     <g id="Layer_1">
                       <g>
@@ -263,48 +296,73 @@ export default function HomePage() {
                     </g>
                   </g>
                 </svg>
-    <div className="flex flex-row space-x-4 mb-4">
-            <Input placeholder="Full Name" value={inputValueName} onChange={handleInputChangeName} />
-            <Input type="email" placeholder="Email" value={inputValueEmail} onChange={handleInputChangeEmail} />
+
+              <div className="flex flex-row space-x-4 mb-4">
+                <Input placeholder="Full Name" value={inputValueName} onChange={handleInputChangeName} />
+                <Input type="email" placeholder="Email" value={inputValueEmail} onChange={handleInputChangeEmail} />
+              </div>
+              <Input
+                type="tel"
+                placeholder="Phone Number (Optional)"
+                className='mb-4'
+                value={inputValuePhone}
+                onChange={handleInputChangePhone}
+              />
+              <Button className='w-full bg-[#FFB4C1] hover:bg-[#FFC9D4] text-black' onClick={handleSubmit}>Sign Up</Button>
+              <motion.p className="mt-auto text-slate-500 font-thin italic text-xl drop-shadow">
+                {info}
+              </motion.p>
+            </div>
+          </motion.div>
           </div>
-          <Input
-            type="tel"
-            placeholder="Phone Number (Optional)"
-            className='mb-4'
-            value={inputValuePhone}
-            onChange={handleInputChangePhone}
-          />
-          <Button className='w-full' onClick={handleSubmit}>Sign Up</Button>
-          <motion.p className="mt-auto text-slate-500 font-thin italic text-xl drop-shadow">
-            {info}
-          </motion.p>
-      </div>
-  </motion.div>
-  <svg
-  className="absolute inset-0 z-20 pointer-events-none w-full h-full"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <line
-    x1="70%"
-    y1="0%"
-    x2="0%"
-    y2="100%"
-    stroke="white"
-    strokeWidth="2"
-    style={{
-      filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.8))',
-    }}
-  >
-    <animate
-      attributeName="opacity"
-      values="0.2;1;0.2"
-      dur="8s"
-      repeatCount="indefinite"
-    />
-  </line>
-</svg>
+          <svg
+      className="absolute inset-0 z-20 pointer-events-none w-full h-full"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Define the gradient */}
+      <defs>
+        <linearGradient id="beam-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="white" stopOpacity="0.3">
+            <animate
+              attributeName="offset"
+              values="-1;2"
+              dur="4s"
+              repeatCount="indefinite"
+            />
+          </stop>
+          <stop offset="50%" stopColor="white" stopOpacity="1">
+            <animate
+              attributeName="offset"
+              values="-0.5;2.5"
+              dur="4s"
+              repeatCount="indefinite"
+            />
+          </stop>
+          <stop offset="100%" stopColor="white" stopOpacity="0.3">
+            <animate
+              attributeName="offset"
+              values="0;3"
+              dur="4s"
+              repeatCount="indefinite"
+            />
+          </stop>
+        </linearGradient>
+      </defs>
+
+      <line
+        x1={lineCoordinates.x1}
+        y1={lineCoordinates.y1}
+        x2={lineCoordinates.x2}
+        y2={lineCoordinates.y2}
+        stroke="url(#beam-gradient)"
+        strokeWidth="2"
+        style={{
+          filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.8))',
+        }}
+      />
+    </svg>
     </>
-    }
+    )}
     </>
   );
 }
